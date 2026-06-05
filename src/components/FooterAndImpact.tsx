@@ -63,7 +63,7 @@ export const Navbar = () => {
 
 export const Footer = () => {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', context: '' });
   const timeoutRef = React.useRef<NodeJS.Timeout>(null);
 
   React.useEffect(() => {
@@ -85,7 +85,7 @@ export const Footer = () => {
 
       if (response.ok) {
         setStatus('sent');
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', email: '', context: '' });
         timeoutRef.current = setTimeout(() => setStatus('idle'), 5000);
       } else {
         const contentType = response.headers.get("content-type");
@@ -157,13 +157,14 @@ export const Footer = () => {
             </div>
             <div className="space-y-2">
               <label className="text-[10px] font-mono text-gray-500 uppercase">Workflow Description</label>
-              <textarea 
-                required 
-                rows={4} 
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full bg-black border border-gray-800 rounded-lg p-3 text-sm focus:border-blue-500 outline-none resize-none" 
-                placeholder="Describe the manual bottleneck..." 
+              <textarea
+                id="context"
+                rows={4}
+                value={formData.context}
+                onChange={(e) => setFormData({ ...formData, context: e.target.value })}
+                className="w-full bg-black/50 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                placeholder="Describe your operational bottleneck..."
+                required
               />
             </div>
             <button 
