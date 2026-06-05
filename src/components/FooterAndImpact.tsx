@@ -63,7 +63,7 @@ export const Navbar = () => {
 
 export const Footer = () => {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
-  const [formData, setFormData] = useState({ name: '', email: '', context: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const timeoutRef = React.useRef<NodeJS.Timeout>(null);
 
   React.useEffect(() => {
@@ -85,7 +85,7 @@ export const Footer = () => {
 
       if (response.ok) {
         setStatus('sent');
-        setFormData({ name: '', email: '', context: '' });
+        setFormData({ name: '', email: '', message: '' });
         timeoutRef.current = setTimeout(() => setStatus('idle'), 5000);
       } else {
         const contentType = response.headers.get("content-type");
@@ -158,10 +158,10 @@ export const Footer = () => {
             <div className="space-y-2">
               <label className="text-[10px] font-mono text-gray-500 uppercase">Workflow Description</label>
               <textarea
-                id="context"
+                id="message"
                 rows={4}
-                value={formData.context}
-                onChange={(e) => setFormData({ ...formData, context: e.target.value })}
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full bg-black/50 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="Describe your operational bottleneck..."
                 required
