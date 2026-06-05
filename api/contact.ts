@@ -10,20 +10,28 @@ const escapeHtml = (unsafe: string) => {
     .replace(/'/g, "&#039;");
 };
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.SMTP_USER, // your email
-    pass: process.env.SMTP_PASS, // your app password
-  },
-});
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Initialize transporter inside the handler to ensure env vars are loaded 
+  // and to catch initialization errors safely on Vercel cold starts.
+  let transporter;
+  try {
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+  } catch (initError) {
+    console.error('Transporter Init Error:', initError);
+    return res.status(500).json({ error: 'Failed to initialize mail service.' });
   }
 
   const { name, email, message } = req.body;
