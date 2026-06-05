@@ -1,4 +1,4 @@
-# Yash Bhansali - Portfolio & Automation Engine
+# Yash Bhansali - Portfolio
 
 A high-performance, automation-focused portfolio application built with React and Vite. Designed to showcase engineering projects, scalable systems, and data pipelines with a sleek, terminal-inspired aesthetic.
 
