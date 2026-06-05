@@ -88,8 +88,13 @@ export const Footer = () => {
         setFormData({ name: '', email: '', message: '' });
         timeoutRef.current = setTimeout(() => setStatus('idle'), 5000);
       } else {
-        const err = await response.json();
-        throw new Error(err.error || 'Transmission failed');
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          const err = await response.json();
+          throw new Error(err.error || 'Transmission failed');
+        } else {
+          throw new Error(`Server returned status: ${response.status}`);
+        }
       }
     } catch (error) {
       console.error('Submission error:', error);
