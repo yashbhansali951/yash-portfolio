@@ -118,7 +118,7 @@ export const Footer = () => {
                 <span className="text-[10px] font-mono group-hover:block hidden">LINKEDIN</span>
                 <Network size={20} />
               </a>
-              <a href="https://github.com/yashbhansali951" target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 transition-colors text-gray-400 hover:text-white">
+              <a href="https://github.com/yashbhansali951" target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 transition-colors text-gray-400 hover:text-white group flex items-center gap-2">
                 <span className="text-[10px] font-mono group-hover:block hidden">GITHUB</span>
                 <Code2 size={20} />
               </a>
