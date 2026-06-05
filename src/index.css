@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-system-bg: #0C0C0C;
+  --color-system-border: #1F2937;
+  --color-system-accent: #3B82F6;
+  --color-system-success: #10B981;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  background-color: var(--color-system-bg);
+  color: #E5E7EB;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+.grid-background {
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.scanline {
+  width: 100%;
+  height: 2px;
+  background: rgba(59, 130, 246, 0.1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  pointer-events: none;
+  animation: scan 4s linear infinite;
+}
+
+@keyframes scan {
+  from { top: 0; }
+  to { top: 100%; }
+}
+
+.glow-card {
+  transition: all 0.3s ease;
+}
+
+.glow-card:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+}
