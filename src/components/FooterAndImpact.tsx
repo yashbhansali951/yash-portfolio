@@ -114,13 +114,16 @@ export const Footer = () => {
               I am currently open to new projects and system architectural consultations.
             </p>
             <div className="flex gap-4">
-              <a href="https://www.linkedin.com/in/yash-bhansali951/" target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 transition-colors text-gray-400 hover:text-white">
+              <a href="https://www.linkedin.com/in/yash-bhansali951/" target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 transition-colors text-gray-400 hover:text-white group flex items-center gap-2">
+                <span className="text-[10px] font-mono group-hover:block hidden">LINKEDIN</span>
                 <Network size={20} />
               </a>
               <a href="https://github.com/yashbhansali951" target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 transition-colors text-gray-400 hover:text-white">
+                <span className="text-[10px] font-mono group-hover:block hidden">GITHUB</span>
                 <Code2 size={20} />
               </a>
-              <a href="mailto:yashbhansali747@gmail.com" className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 transition-colors text-gray-400 hover:text-white">
+              <a href="mailto:yashbhansali747@gmail.com" className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 transition-colors text-gray-400 hover:text-white group flex items-center gap-2">
+                <span className="text-[10px] font-mono group-hover:block hidden">EMAIL</span>
                 <Mail size={20} />
               </a>
               <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 transition-colors text-gray-400 hover:text-white group flex items-center gap-2">
