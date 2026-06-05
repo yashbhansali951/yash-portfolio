@@ -11,42 +11,46 @@ const escapeHtml = (unsafe: string) => {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Only allow POST requests
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // Initialize transporter inside the handler to ensure env vars are loaded 
-  // and to catch initialization errors safely on Vercel cold starts.
-  let transporter;
   try {
-    transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-  } catch (initError) {
-    console.error('Transporter Init Error:', initError);
-    return res.status(500).json({ error: 'Failed to initialize mail service.' });
-  }
+    // Only allow POST requests
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Method not allowed' });
+    }
 
-  const { name, email, message } = req.body;
+    if (!req.body) {
+      return res.status(400).json({ error: 'Missing request body' });
+    }
 
-  if (!name || typeof name !== 'string' || name.length > 100) {
-    return res.status(400).json({ error: 'Invalid name' });
-  }
-  if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(400).json({ error: 'Invalid email address' });
-  }
-  if (!message || typeof message !== 'string' || message.length > 2000) {
-    return res.status(400).json({ error: 'Invalid message length' });
-  }
+    // Initialize transporter inside the handler to ensure env vars are loaded 
+    // and to catch initialization errors safely on Vercel cold starts.
+    let transporter;
+    try {
+      transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST || 'smtp.gmail.com',
+        port: Number(process.env.SMTP_PORT) || 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      });
+    } catch (initError) {
+      console.error('Transporter Init Error:', initError);
+      return res.status(500).json({ error: 'Failed to initialize mail service.' });
+    }
 
-  try {
+    const { name, email, message } = req.body;
+
+    if (!name || typeof name !== 'string' || name.length > 100) {
+      return res.status(400).json({ error: 'Invalid name' });
+    }
+    if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: 'Invalid email address' });
+    }
+    if (!message || typeof message !== 'string' || message.length > 2000) {
+      return res.status(400).json({ error: 'Invalid message length' });
+    }
+
     const info = await transporter.sendMail({
       from: `"${name}" <${process.env.SMTP_USER}>`,
       to: process.env.CONTACT_RECEIVER_EMAIL || 'yashbhansali747@gmail.com',
@@ -63,11 +67,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     console.log('Message sent: %s', info.messageId);
-    res.status(200).json({ success: true, messageId: info.messageId });
+    return res.status(200).json({ success: true, messageId: info.messageId });
   } catch (error) {
-    console.error('Email Error:', error);
-    res.status(500).json({ 
-      error: 'Failed to send email. Ensure SMTP credentials are configured in Settings.',
+    console.error('Global Handler Error:', error);
+    return res.status(500).json({ 
+      error: 'Internal Server Error during execution.',
       details: error instanceof Error ? error.message : 'Unknown error'
     });
   }
